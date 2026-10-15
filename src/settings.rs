@@ -428,9 +428,11 @@ mod tests {
     #[test]
     fn resolve_by_profile() {
         let s = Settings::default();
-        assert_eq!(s.resolve_format("auto", Some("winword.exe")).0.id, "mathml");
+        // Default profiles are keyed by exe name on Windows/Linux and by app name on macOS.
+        let word = if cfg!(target_os = "macos") { "Microsoft Word" } else { "WINWORD.EXE" };
+        assert_eq!(s.resolve_format("auto", Some(&word.to_lowercase())).0.id, "mathml");
         assert_eq!(s.resolve_format("auto", Some("notepad.exe")).0.id, "latex");
-        assert_eq!(s.resolve_format("inline", Some("WINWORD.EXE")).0.id, "inline");
+        assert_eq!(s.resolve_format("inline", Some(word)).0.id, "inline");
         assert_eq!(s.resolve_format("missing", None).0.id, "latex");
     }
 
