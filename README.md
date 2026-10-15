@@ -7,6 +7,7 @@ Free, open source, runs offline. Image to LaTeX in about 0.3 seconds on an NVIDI
 
 <p align="center">
   <a href="../../releases/latest"><img alt="Download for Windows" src="https://img.shields.io/badge/download-Windows%2010%2F11-c23d27"></a>
+  <a href="../../releases/latest"><img alt="Linux preview" src="https://img.shields.io/badge/Linux-preview-555"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-555"></a>
 </p>
 
@@ -55,6 +56,17 @@ Already have Python with [`latex-ocr-server`](https://github.com/lucasvanmol/lat
 
 > Windows SmartScreen may warn about an unrecognized app because the installer isn't code-signed yet. Choose **More info → Run anyway**.
 
+### Linux (preview)
+
+Linux builds are new and haven't been tested much yet. Reports in [Issues](../../issues) are very welcome.
+
+- **AppImage** (any distro): download `Integrand_x.y.z_amd64.AppImage`, run `chmod +x Integrand_*.AppImage`, then start it.
+- **Debian/Ubuntu**: `sudo apt install ./Integrand_x.y.z_amd64.deb`. This also installs `xdotool` and `curl`, and suggests `flameshot`.
+
+With the AppImage, install the helpers yourself: `xdotool` (finds the focused app and pastes), `curl` (engine setup) and a screenshot tool (`flameshot`, `gnome-screenshot` or `spectacle`).
+
+Integrand needs an **X11 session** for now. Under Wayland, global hotkeys and pasting into other apps don't work yet. On GNOME or KDE you can pick "Xorg" or "X11" on the login screen. An NVIDIA GPU is used through CUDA as on Windows; other GPUs fall back to the processor.
+
 ## Use
 
 | Default hotkey | Does |
@@ -100,7 +112,7 @@ cargo test
 
 Pushing a `v*` tag builds the installers on GitHub Actions and attaches them to a draft release (`.github/workflows/release.yml`).
 
-Status: Windows 10/11 is the supported platform. The macOS and Linux code paths compile but haven't been tested yet. Contributions are welcome.
+Status: Windows 10/11 is the supported platform. Linux (X11) is in preview. The macOS code compiles and passes the tests but hasn't been tried on a Mac yet. Contributions are welcome.
 
 ## Licenses
 

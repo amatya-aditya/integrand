@@ -1,7 +1,7 @@
-# Tests on all platforms, then builds the Windows installer and attaches it to a draft GitHub
-# release when a version tag is pushed:
+# Tests on all platforms, then builds the Windows installer and a Linux preview (AppImage, .deb)
+# and attaches them to a draft GitHub release when a version tag is pushed:
 #   git tag v1.0.0 && git push origin v1.0.0
-# macOS and Linux compile and pass the tests, but they aren't released until they've been tried.
+# macOS compiles and passes the tests but isn't released until it has been tried.
 name: Release
 
 on:
@@ -36,9 +36,24 @@ jobs:
 
   release:
     needs: test
-    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            args: ""
+          # Preview: AppImage for any distro, .deb for Debian/Ubuntu. X11 sessions only for now.
+          - platform: ubuntu-22.04
+            args: "--bundles appimage,deb"
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v5
+
+      - name: Linux system libraries
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libxdo-dev
 
       - uses: dtolnay/rust-toolchain@stable
 
@@ -51,7 +66,12 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: Integrand ${{ github.ref_name }}
           releaseBody: |
-            Integrand: LaTeX OCR for Windows 10/11. Download `Integrand_*_x64-setup.exe` below and run it; no administrator rights needed.
+            Integrand: LaTeX OCR for the desktop. See the README for setup.
 
-            On first launch Integrand sets up its recognition engine: about 1.8 GB to download on a PC without an NVIDIA GPU, 3.6 GB with one. See the README for details.
+            **Windows 10/11 (x64):** download `Integrand_*_x64-setup.exe` and run it; no administrator rights needed.
+
+            **Linux (preview, untested):** `Integrand_*_amd64.AppImage` runs on most distros (`chmod +x` it first); `Integrand_*_amd64.deb` is for Debian and Ubuntu. Needs an X11 session; hotkeys and pasting don't work under Wayland yet. Please report what works and what doesn't in Issues.
+
+            On first launch Integrand sets up its recognition engine: about 1.8 GB to download without an NVIDIA GPU, 3.6 GB or more with one.
           releaseDraft: true
+          args: ${{ matrix.args }}
