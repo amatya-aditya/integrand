@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Integrand</title>
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="hud.js" defer></script>
+  <style>
+    html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; user-select: none; }
+    body { display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px; box-sizing: border-box;
+      font: 13px/1.4 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; }
+    .card {
+      width: 100%; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: center;
+      padding: 12px 16px 12px 14px; border-radius: 14px; color: #f3f1ec;
+      background: #22201d; border: 1px solid rgba(255,255,255,.09);
+      box-shadow: 0 10px 30px -10px rgba(10, 8, 40, .7);
+      opacity: 0; transform: translateY(8px); transition: opacity .16s ease-out, transform .16s ease-out;
+    }
+    .card.show { opacity: 1; transform: none; }
+    .card.error { background: #3a1a16; }
+    .badge { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; }
+    .ok .badge { background: rgba(240, 112, 90, .16); color: #f59a88; }
+    .error .badge { background: rgba(251, 146, 60, .16); color: #fdba74; }
+    .working .badge { background: rgba(255,255,255,.08); }
+    .badge svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .spin { width: 18px; height: 18px; border-radius: 50%; border: 2.4px solid rgba(255,255,255,.2); border-top-color: #f0705a; animation: r .8s linear infinite; }
+    @keyframes r { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2.4s; } .card { transition: none; } }
+    .body { min-width: 0; }
+    .title { font-weight: 600; font-size: 13px; color: #fff; }
+    .eq { margin-top: 2px; font-size: 16px; white-space: nowrap; overflow: hidden; max-height: 68px; }
+    .eq.fade { mask-image: linear-gradient(90deg, #000 85%, transparent); }
+    .eq .katex-display { margin: 0; text-align: left; }
+    .eq .katex-display > .katex { text-align: left; }
+    .detail { color: #b3aea5; font-size: 12px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .error .detail { white-space: normal; color: #f3c6b3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card" role="status" aria-live="polite">
+    <div class="badge" id="badge"></div>
+    <div class="body"><div class="title" id="title"></div><div class="eq" id="eq"></div><div class="detail" id="detail"></div></div>
+  </div>
+</body>
+</html>

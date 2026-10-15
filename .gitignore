@@ -1,0 +1,11 @@
+/target/
+/gen/
+/desktop/
+/.clipboard_images/
+/.cc-history/
+/.claude/
+README.html
+README_files/
+*.log
+.DS_Store
+Thumbs.db

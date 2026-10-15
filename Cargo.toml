@@ -1,0 +1,46 @@
+[package]
+name = "integrand"
+version = "1.0.0"
+edition = "2024"
+description = "LaTeX OCR for the desktop: snip an equation anywhere on screen and paste it as LaTeX, a Word equation, Mathematica and more"
+keywords = ["latex", "ocr", "math", "equation", "image-to-latex"]
+license = "MIT"
+repository = "https://github.com/amatya-aditya/integrand"
+readme = "README.md"
+authors = ["Aditya Amatya"]
+
+[dependencies]
+anyhow = "1.0.104"
+arboard = "3.6.1"
+base64 = "0.23.1"
+chrono = { version = "0.4.45", features = ["serde"] }
+dirs = "7.0.0"
+image = { version = "0.25.10", default-features = false, features = ["png"] }
+log = "0.4.34"
+prost = "0.13"
+pulldown-latex = "0.8.0"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.1"
+simplelog = "0.12.2"
+tauri = { version = "2.12.3", features = ["tray-icon", "protocol-asset", "image-png"] }
+tauri-plugin-autostart = "2.7.0"
+tauri-plugin-dialog = "2.8.2"
+tauri-plugin-global-shortcut = "2.4.1"
+tauri-plugin-single-instance = "2.5.3"
+tokio = { version = "1", features = ["rt-multi-thread", "time", "macros", "sync"] }
+tonic = "0.12"
+
+[target."cfg(windows)".dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_Graphics_Dwm", "Win32_UI_Input_KeyboardAndMouse", "Win32_UI_WindowsAndMessaging", "Win32_System_Threading", "Win32_System_DataExchange", "Win32_System_JobObjects", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_Registry", "Win32_Graphics_Gdi"] }
+
+[target."cfg(not(windows))".dependencies]
+enigo = "0.6.1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[build-dependencies]
+tauri-build = { version = "2.7.2", features = [] }

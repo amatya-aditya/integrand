@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Integrand",
+  "mainBinaryName": "integrand",
+  "version": "1.0.0",
+  "identifier": "com.integrand.desktop",
+  "build": {
+    "frontendDist": "ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' asset: http://asset.localhost data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'",
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["$LOCALDATA/com.integrand.desktop/history/**", "$TEMP/**"]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "copyright": "MIT License",
+    "licenseFile": "LICENSE",
+    "homepage": "https://github.com/amatya-aditya/integrand",
+    "publisher": "Aditya Amatya",
+    "category": "Productivity",
+    "shortDescription": "LaTeX OCR: snip an equation, paste it anywhere",
+    "longDescription": "Offline LaTeX OCR for the desktop. Snip or copy an image of an equation and paste it as LaTeX, a native Word/PowerPoint equation, Mathematica, MATLAB or Python into any application with one hotkey. Recognition runs locally.",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser",
+        "installerHooks": "installer/hooks.nsh",
+        "installerIcon": "icons/icon.ico"
+      }
+    }
+  }
+}

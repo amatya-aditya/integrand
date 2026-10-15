@@ -1,0 +1,11 @@
+# Runtime dependencies of the recognition engine, installed by Integrand's setup wizard into its
+# private Python. PyTorch is installed separately from the PyTorch index that matches the GPU, and
+# latex-ocr-server itself with --no-deps (its own pins are outdated; see patch_server.py).
+transformers==5.17.0
+tokenizers==0.23.2
+huggingface_hub==1.33.0
+safetensors==0.8.0
+grpcio==1.84.0
+protobuf==7.36.2
+pillow==12.2.0
+numpy==2.4.4
